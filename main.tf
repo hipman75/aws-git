@@ -6,8 +6,10 @@ resource "aws_instance" "my-ec2" {
   ami = "ami-0c94855ba95c71c99"
   instance_type = "t2.micro"
   tags = {
-    "Name" = "EC2 terraform"
+    "Name" = "terraform-ec2"
   }
+  aws_subnet = aws_subnet.my-subnet.id
+  vpc_security_group_ids = ["sg-0dd7fb01b7295c9b6","sg-0412309b76be8b3b7"]
 }
 
 resource "aws_vpc" "my-vpc" {
@@ -19,7 +21,7 @@ resource "aws_vpc" "my-vpc" {
 
 resource "aws_subnet" "my-subnet" {
   cidr_block = "10.0.1.0/24"
-  vpc_id = aws_vpc.my-vpc.vpc_id
+  vpc_id = aws_vpc.my-vpc.id
   tags = {
     "Name" = "terraform-subnet"
   }
