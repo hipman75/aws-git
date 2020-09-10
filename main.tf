@@ -8,8 +8,9 @@ resource "aws_instance" "my-ec2" {
   tags = {
     "Name" = "terraform-ec2"
   }
-  aws_subnet = aws_subnet.my-subnet.id
+  subnet_id = aws_subnet.my-subnet.id
   vpc_security_group_ids = ["sg-0dd7fb01b7295c9b6","sg-0412309b76be8b3b7"]
+  key_name = "MyKey"
 }
 
 resource "aws_vpc" "my-vpc" {
