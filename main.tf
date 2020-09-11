@@ -29,7 +29,7 @@ resource "aws_route_table" "my-rt" {
 
   route {
     ipv6_cidr_block        = "::/0"
-    egress_only_gateway_id = aws_internet_gateway.my-igw.id
+    gateway_id = aws_internet_gateway.my-igw.id
   }
 
   tags = {
