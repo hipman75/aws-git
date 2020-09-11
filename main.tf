@@ -42,6 +42,7 @@ resource "aws_subnet" "my-subnet" {
   cidr_block = "10.0.1.0/24"
   vpc_id = aws_vpc.my-vpc.id
   availability_zone = "us-east-1a"
+   map_public_ip_on_launch = "true"
   tags = {
     "Name" = "terraform-subnet"
   }
@@ -124,6 +125,8 @@ resource "aws_instance" "my-ec2" {
   }
   subnet_id = aws_subnet.my-subnet.id
   key_name = "MyKey"
+ # aws_security_group = aws_security_group.my-sg.id
+  vpc_security_group_ids = vpc_security_group_ids.my-sg.id
   user_data = <<-EOF
     #!/bin/bash
     sudo apt update -y
