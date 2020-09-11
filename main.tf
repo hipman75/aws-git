@@ -99,16 +99,16 @@ ingress {
 
 # 7. Create a NIC with an IP in the subnet created in step 4
 
-resource "aws_network_interface" "my-nic" {
-  subnet_id       = aws_subnet.my-subnet.id
-  private_ips     = ["10.0.1.50"]
-  security_groups = [aws_security_group.my-sg.id]
+#resource "aws_network_interface" "my-nic" {
+#  subnet_id       = aws_subnet.my-subnet.id
+#  private_ips     = ["10.0.1.50"]
+#  security_groups = [aws_security_group.my-sg.id]#
 
-  attachment {
-    instance     = aws_instance.my-ec2.id
-    device_index = 1
-  }
-}
+#  attachment {
+#    instance     = aws_instance.my-ec2.id
+#    device_index = 1
+#  }
+#}
 
 # 8. Assign an elastic IP to the NIC in step 7
 
@@ -126,7 +126,8 @@ resource "aws_instance" "my-ec2" {
   subnet_id = aws_subnet.my-subnet.id
   key_name = "MyKey"
  # aws_security_group = aws_security_group.my-sg.id
-  vpc_security_group_ids = vpc_security_group_ids.my-sg.id
+ # vpc_security_group_ids = aws_security_group_ids.my-sg.id
+  security_groups = ["${aws_security_group.my-sg.id}"]
   user_data = <<-EOF
     #!/bin/bash
     sudo apt update -y
@@ -142,6 +143,12 @@ resource "aws_eip" "my-ip" {
   vpc      = true
   instance = aws_instance.my-ec2.id
 }
+
+resource "aws_eip" "my-dns-name" {
+  vpc = true
+  instance = aws_instance.my-ec2.id
+}
+
 
 #resource "aws_instance" "my-hostname" {
 #  instance = aws_instance.my-ec2.hostname
