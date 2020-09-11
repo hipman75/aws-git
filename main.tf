@@ -118,6 +118,7 @@ resource "aws_instance" "my-ec2" {
   instance_type = "t2.micro"
   availability_zone = "us-east-1a"
   associate_public_ip_address = "true"
+#  aws_eip = "true"
   tags = {
     "Name" = "terraform-ec2"
   }
@@ -133,16 +134,13 @@ resource "aws_instance" "my-ec2" {
 }
 
 # get public IP for EC2
+
 resource "aws_eip" "my-ip" {
   vpc      = true
   instance = aws_instance.my-ec2.id
 }
 
-# Ouput EC2 public IP
-output "my-ip" {
-  value = aws_eip.my-ip.public_ip
+#resource "aws_instance" "my-hostname" {
+#  instance = aws_instance.my-ec2.hostname
 
-}
-
-
-
+#}
